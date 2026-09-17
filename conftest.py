@@ -1,3 +1,4 @@
+import logging
 import pytest
 from selenium import webdriver
 
@@ -5,6 +6,9 @@ from helpers import generate_user_data, register_user, login_user, delete_user
 from pages.main_page import MainPage
 from pages.login_page import LoginPage
 from pages.order_feed_page import OrderFeedPage
+
+# Создаём логгер
+logger = logging.getLogger(__name__)
 
 
 @pytest.fixture
@@ -34,7 +38,6 @@ def order_feed_page(driver):
 @pytest.fixture
 def user_data():
     return generate_user_data()
-
 
 
 @pytest.fixture
@@ -69,5 +72,5 @@ def auth_user(driver, user_data):
     try:
         delete_user({"Authorization": token})
     except Exception as e:
-        print(f"Не удалось удалить пользователя после теста: {e}")
+        logger.error(f"Не удалось удалить пользователя после теста: {e}")
 
